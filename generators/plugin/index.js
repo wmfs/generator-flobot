@@ -1,72 +1,79 @@
 'use strict'
+
+// Useful references:
+//   - https://github.com/SBoudrias/mem-fs-editor
+//   - http://ejs.co/
+//   - https://github.com/SBoudrias/Inquirer.js
+
+const _ = require('lodash')
+const process = require('process')
 const Generator = require('yeoman-generator')
 const yosay = require('yosay')
 const path = require('path')
 
-// https://github.com/SBoudrias/mem-fs-editor
-// http://ejs.co/
-// https://github.com/SBoudrias/Inquirer.js
+const Prompts = require('./../../utils/Prompts')
+const makeTemplateContext = require('./../../utils/make-template-context')
+const expandPluginName = require('./../../utils/expand-plugin-name')
 
 module.exports = class extends Generator {
   prompting () {
+    // Be welcoming!
     this.log(yosay(
-      'Welcome to FlobotJS plugin generator!'
+      'Welcome to the FlobotJS plugin generator!'
     ))
 
-    return this.prompt([
-      {
-        type: 'input',
-        name: 'author',
-        message: 'Please input the author\'s name'
-      },
-      {
-        type: 'input',
-        name: 'description',
-        message: 'Please add a description for this plugin:'
-      },
-      {
-        type: 'confirm',
-        name: 'hasServices',
-        message: 'Does this plugin require services?'
-      }]).then((answers) => (
-      this.prompt(
-        {
-          type: 'input',
-          name: 'services',
-          message: 'Please list the services required (comma delimited):'
-        }
-      )
-    )).then(
-      function (props) {
-        this.services = props.services
+    // Make a new Prompts instance (makes building-up an array of prompts a bit simpler)
+    const prompts = new Prompts()
 
+    // Expect $FLOBOT_PLUGINS_PATH to be set, fail if not
+    this.pluginsPath = process.env.FLOBOT_PLUGINS_PATH
+    if (!_.isString(this.pluginsPath)) {
+      this.env.error('You need to set the FLOBOT_PLUGINS_PATH environment variable to point to a directory where you\'d like your new plugin creating!')
+    }
+
+    // Build-up our list of questions
+    prompts.add({name: 'pluginName', message: 'Plugin name'})
+    prompts.add({name: 'description', message: 'Description'})
+    prompts.add({name: 'author', message: 'Author', default: this.config.get('author')})
+    prompts.add({name: 'githubOwner', message: 'Github owner (user or org)', default: this.config.get('githubOwner')})
+    prompts.add({name: 'githubMonorepo', message: 'Github monorepo name', default: this.config.get('githubMonorepo')})
+    prompts.add({name: 'copyright', message: 'Copyright owner', default: this.config.get('copyright')})
+
+    return this.prompt(prompts.prompts).then(
+      function (promptingAnswers) {
+        //
+        // Done asking questions, set some things ahead of configuring.
+        //
+        promptingAnswers.pluginName = expandPluginName(promptingAnswers.pluginName)
+        this.context = makeTemplateContext(promptingAnswers)
+        this.destRoot = path.join(this.pluginsPath, promptingAnswers.pluginName)
       }.bind(this))
   }
 
+  configuring () {
+    // Write the following to .yo-rc.json... used as defaults in subsequent generations
+    this.config.set('author', this.context.author)
+    this.config.set('githubOwner', this.context.githubOwner)
+    this.config.set('githubMonorepo', this.context.githubMonorepo)
+    this.config.set('copyright', this.context.copyright)
+  }
+
   writing () {
-    const serviceArr = this.services.split(',')
-    const serviceCont = {}
-    let loc
-    for (let service of serviceArr) {
-      serviceCont.service = service.charAt(0).toUpperCase() + service.slice(1)
-      loc = path.join('lib/components/services/', service)
-      const fileName = loc + '.js'
-      this.fs.copyTpl(path.resolve(__dirname, 'templates/_service_index.js'), fileName, serviceCont)
+    // And finally write-out templates/files
+    const _this = this
+
+    function templatePath (templateFilename) {
+      return path.join(__dirname, 'templates', templateFilename)
     }
 
-    const dirname = __dirname
-    console.log(this)
-    const context = {
-      author: this.author || 'Author',
-      desc: this.description || 'Description',
-      dir_name: dirname
+    function destPath (destPath) {
+      return path.join(_this.destRoot, destPath)
     }
-    this.fs.copyTpl(path.resolve(__dirname, 'templates/_package.json'), 'package.json', context)
-    this.fs.copy(path.resolve(__dirname, './templates/dummyfile.txt'), 'lib/components/services/dummyfile.txt')
-    this.fs.copy(path.resolve(__dirname, './templates/dummyfile.txt'), 'lib/components/states/dummyfile.txt')
-    this.fs.copy(path.resolve(__dirname, './templates/_index.js'), 'lib/index.js')
-    this.fs.copy(path.resolve(__dirname, './templates/_README.md'), 'README.md')
-    this.fs.copy(path.resolve(__dirname, './templates/_gitignore'), '.gitignore')
-    this.fs.copy(path.resolve(__dirname, './templates/_LICENSE.md'), 'LICENSE.md')
+
+    this.fs.copyTpl(templatePath('_package.json'), destPath('package.json'), this.context)
+    this.fs.copyTpl(templatePath('_index.js'), destPath('lib/index.js'), this.context)
+    this.fs.copyTpl(templatePath('_README.md'), destPath('README.md'), this.context)
+    this.fs.copyTpl(templatePath('_gitignore'), destPath('.gitignore'), this.context)
+    this.fs.copyTpl(templatePath('_LICENSE'), destPath('LICENSE'), this.context)
   }
 }

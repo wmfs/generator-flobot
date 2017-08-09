@@ -1,9 +1,12 @@
-# blueprint
+# <%= pluginName %>
 
-> Flobot blueprint generated via yo flobot:blueprint
+> <%= description %>
+
+## <a name="install"></a>Install
+```bash
+$ npm install <%= pluginName %> --save
+```
 
 ## <a name="license"></a>License
 
-
-
-MIT
+[MIT](https://github.com/<%= githubOwner %>/<%= githubRepo %>/blob/master/LICENSE)
