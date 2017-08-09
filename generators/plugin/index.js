@@ -64,10 +64,10 @@ module.exports = class extends Generator {
       return path.join(_this.destRoot, destPath)
     }
 
-    this.fs.copyTpl(templatePath('_package.json'), destPath('package.json'), this.context)
-    this.fs.copyTpl(templatePath('_index.js'), destPath('lib/index.js'), this.context)
-    this.fs.copyTpl(templatePath('_README.md'), destPath('README.md'), this.context)
-    this.fs.copyTpl(templatePath('_gitignore'), destPath('.gitignore'), this.context)
-    this.fs.copyTpl(templatePath('_LICENSE'), destPath('LICENSE'), this.context)
+    this.fs.copyTpl(templatePath('package.json.ejs'), destPath('package.json'), this.context)
+    this.fs.copyTpl(templatePath('index.js.ejs'), destPath('lib/index.js'), this.context)
+    this.fs.copyTpl(templatePath('README.md.ejs'), destPath('README.md'), this.context)
+    this.fs.copyTpl(templatePath('gitignore.ejs'), destPath('.gitignore'), this.context)
+    this.fs.copyTpl(templatePath('LICENSE.ejs'), destPath('LICENSE'), this.context)
   }
 }

@@ -66,9 +66,6 @@ module.exports = class extends Generator {
           )
           this.context.blueprintDirs = processedDirs
         }
-
-        console.log(this.context)
-
       }.bind(this))
   }
 
@@ -84,12 +81,12 @@ module.exports = class extends Generator {
       return path.join(_this.destRoot, destPath)
     }
 
-    this.fs.copyTpl(templatePath('_service-index.js.ejs'), destPath('index.js'), this.context)
-    this.fs.copyTpl(templatePath('_schema.json'), destPath('schema.json'), this.context)
-    this.fs.copyTpl(templatePath('_doc-index.js.ejs'), destPath('doc/index.js'), this.context)
+    this.fs.copyTpl(templatePath('service-index.js.ejs'), destPath('index.js'), this.context)
+    this.fs.copyTpl(templatePath('schema.json.ejs'), destPath('schema.json'), this.context)
+    this.fs.copyTpl(templatePath('doc-index.js.ejs'), destPath('doc/index.js'), this.context)
 
     if (this.context.configurable) {
-      this.fs.copyTpl(templatePath('_example.json'), destPath('doc/example.json'), this.context)
+      this.fs.copyTpl(templatePath('example.json.ejs'), destPath('doc/example.json'), this.context)
     }
   }
 }
