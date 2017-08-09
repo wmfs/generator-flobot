@@ -6,7 +6,6 @@
 //   - https://github.com/SBoudrias/Inquirer.js
 
 const _ = require('lodash')
-const process = require('process')
 const Generator = require('yeoman-generator')
 const yosay = require('yosay')
 const path = require('path')
@@ -19,22 +18,17 @@ module.exports = class extends Generator {
   prompting () {
     // Be welcoming!
     this.log(yosay(
-      'Welcome to the FlobotJS plugin generator!'
+      'Welcome to the FlobotJS PLUIGIN generator!'
     ))
 
     // Make a new Prompts instance (makes building-up an array of prompts a bit simpler)
     const prompts = new Prompts()
 
-    // Expect $FLOBOT_PLUGINS_PATH to be set, fail if not
-    this.pluginsPath = process.env.FLOBOT_PLUGINS_PATH
-    if (!_.isString(this.pluginsPath)) {
-      this.env.error('You need to set the FLOBOT_PLUGINS_PATH environment variable to point to a directory where you\'d like your new plugin creating!')
-    }
-
     // Build-up our list of questions
     prompts.add({name: 'pluginName', message: 'Plugin name'})
     prompts.add({name: 'description', message: 'Description'})
     prompts.add({name: 'author', message: 'Author', default: this.config.get('author')})
+    prompts.add({name: 'pluginsOutputDir', message: 'Plugins directory', default: this.config.get('pluginsOutputDir')})
     prompts.add({name: 'githubOwner', message: 'Github owner (user or org)', default: this.config.get('githubOwner')})
     prompts.add({name: 'githubMonorepo', message: 'Github monorepo name', default: this.config.get('githubMonorepo')})
     prompts.add({name: 'copyright', message: 'Copyright owner', default: this.config.get('copyright')})
@@ -46,12 +40,13 @@ module.exports = class extends Generator {
         //
         promptingAnswers.pluginName = expandPluginName(promptingAnswers.pluginName)
         this.context = makeTemplateContext(promptingAnswers)
-        this.destRoot = path.join(this.pluginsPath, promptingAnswers.pluginName)
+        this.destRoot = path.join(this.context.pluginsOutputDir, this.context.pluginName)
       }.bind(this))
   }
 
   configuring () {
     // Write the following to .yo-rc.json... used as defaults in subsequent generations
+    this.config.set('pluginsOutputDir', this.context.pluginsOutputDir)
     this.config.set('author', this.context.author)
     this.config.set('githubOwner', this.context.githubOwner)
     this.config.set('githubMonorepo', this.context.githubMonorepo)

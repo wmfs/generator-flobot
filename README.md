@@ -17,13 +17,6 @@ yo flobot:blueprint
 yo flobot:plugin
 ```
 
-
-## Environment variables
-
-``` bash
-FLOBOT_PLUGINS_PATH=d:/development/tymly/plugins
-````
-
 ## License
 
 [MIT](https://github.com/wmfs/generator-flobot/blob/master/LICENSE)
