@@ -1,0 +1,17 @@
+'use strict'
+
+const schema = require('./schema.json')
+
+class <%= className %> {
+  boot (options, callback) {
+    console.log("The skeleton '<%= serviceName %>' service (from '<%= pluginName %>') is booting!")
+    callback(null)
+  }
+}
+
+module.exports = {
+  serviceClass: <%= className %>,
+  schema: schema,
+  bootBefore: [],
+  bootAfter: []
+}

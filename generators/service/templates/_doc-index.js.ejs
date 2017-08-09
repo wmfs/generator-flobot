@@ -1,0 +1,15 @@
+'use strict'
+
+module.exports = {
+<% if (configurable) { -%>
+  example: require('./example.json'),
+<% } -%>
+<% if (confirmBlueprintDirs) { -%>
+  blueprintDirs: {
+<% blueprintDirs.forEach ( function (blueprintDir) { -%>
+    '<%= blueprintDir %>': 'Things will be loaded from /<%= blueprintDir %>'
+<% }) -%>
+  },
+<% } -%>
+  description: '<%= description %>'
+}

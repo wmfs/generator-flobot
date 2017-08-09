@@ -14,16 +14,5 @@ module.exports = function makeTemplateContext (promptingAnswers) {
     }
   }
 
-  console.log('')
-  console.log('  Values')
-  console.log('  ------')
-
-  _.forEach(
-    ctx,
-    function (value, key) {
-      console.log(`  ${key}: ${value}`)
-    }
-  )
-  console.log('')
   return ctx
 }

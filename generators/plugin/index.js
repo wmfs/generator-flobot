@@ -5,7 +5,6 @@
 //   - http://ejs.co/
 //   - https://github.com/SBoudrias/Inquirer.js
 
-const _ = require('lodash')
 const Generator = require('yeoman-generator')
 const yosay = require('yosay')
 const path = require('path')
@@ -18,7 +17,7 @@ module.exports = class extends Generator {
   prompting () {
     // Be welcoming!
     this.log(yosay(
-      'Welcome to the FlobotJS PLUIGIN generator!'
+      'Welcome to the FlobotJS PLUGIN generator!'
     ))
 
     // Make a new Prompts instance (makes building-up an array of prompts a bit simpler)
