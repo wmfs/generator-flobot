@@ -7,7 +7,6 @@ First, install [Yeoman](http://yeoman.io) and generator-flobot using [npm](https
 
 ```bash
 npm install -g yo
-npm install -g generator-flobot
 ```
 
 Then generate your new project:
@@ -19,9 +18,9 @@ yo flobot:plugin
 
 ## Getting To Know Yeoman
 
- * Yeoman has a heart of gold.
- * Yeoman is a person with feelings and opinions, but is very easy to work with.
- * Yeoman can be too opinionated at times but is easily convinced not to be.
+ * Yeoman has a heart of gold (apparently).
+ * Yeoman is a person with feelings and opinions, but is very easy to work with (apparently).
+ * Yeoman can be too opinionated at times but is easily convinced not to be (apparently).
  * Feel free to [learn more about Yeoman](http://yeoman.io/).
 
 ## License
