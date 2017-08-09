@@ -3,13 +3,13 @@
 
 ## Installation
 
-First, install [Yeoman](http://yeoman.io) and generator-flobot using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
+First, install [Yeoman](http://yeoman.io) using [npm](https://www.npmjs.com/) (we assume you have pre-installed [node.js](https://nodejs.org/)).
 
 ```bash
 npm install -g yo
 ```
 
-Then generate your new project:
+Then generate your new project (use these commands within the directory you want the output to be located):
 
 ```bash
 yo flobot:blueprint
