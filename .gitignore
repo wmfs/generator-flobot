@@ -1,0 +1,9 @@
+# Created by .ignore support plugin (hsz.mobi)
+
+generator-flobot.build.error.log
+generator-flobot.build.log
+.idea/
+__tests__/
+generators/plugin/lib/
+node_modules/
+test/
