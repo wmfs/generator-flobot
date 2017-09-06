@@ -1,13 +1,17 @@
 # generator-flobot 
 > A generator for creating various Flobot components
 
-## Installation
+## Yeoman Installation
+
+Ensure you have the [Yeoman](http://yeoman.io/) tool installed globally:
 
 ```bash
-npm install -g yo
+npm install yo --global
 ```
 
 ## Environment variables
+
+For the generator to create files in the correct locations, please ensure you have the following environment variables set appropriately:
 
 ``` bash
 FLOBOT_PLUGINS_PATH=d:/development/tymly/plugins/*-plugin
