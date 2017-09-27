@@ -23,16 +23,12 @@ module.exports = class extends Generator {
           message: 'What is your blueprint\'s namespace?'
         },
         {
-          name: 'flowName',
-          message: 'What is the name of the flow?'
-        },
-        {
           name: 'flowDesc',
-          message: 'Description for this flow:'
+          message: 'Description for this State Machine:'
         },
         {
           name: 'flowStart',
-          message: 'What is the initial state for this FSM?'
+          message: 'What is the initial state for this State Machine?'
         },
         {
           name: 'modelName',
@@ -47,7 +43,6 @@ module.exports = class extends Generator {
       function (props) {
         this.blueprintName = props.blueprintName
         this.blueprintNamespace = props.blueprintNamespace
-        this.flowName = props.flowName
         this.flowDesc = props.flowDesc
         this.flowStart = props.flowStart
         this.modelName = props.modelName
@@ -66,7 +61,7 @@ module.exports = class extends Generator {
       model_desc: this.modelDesc
     }
     this.fs.copyTpl(path.resolve(__dirname, './templates/_blueprint.json'), 'blueprint.json', context)
-    this.fs.copyTpl(path.resolve(__dirname, './templates/_flow.json'), 'flows/flow.json', context)
+    this.fs.copyTpl(path.resolve(__dirname, './templates/_state_machine.json'), 'state-machine/state.json', context)
     this.fs.copyTpl(path.resolve(__dirname, './templates/_model.json'), 'models/model.json', context)
     this.fs.copy(path.resolve(__dirname, './templates/_README.md'), 'README.md', context)
     this.fs.copy(path.resolve(__dirname, './templates/_gitignore'), '.gitignore', context)

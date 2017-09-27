@@ -1,0 +1,10 @@
+{
+  "Comment": "<%= flow_desc %>",
+  "version": "1.0",
+  "StartAt": "<%= flow_start %>",
+  "instigators": [
+    "user"
+  ],
+  "States": {
+  }
+}
